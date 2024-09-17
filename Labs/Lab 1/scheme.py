@@ -1,5 +1,7 @@
 from numpy.polynomial import Polynomial
 
+# Alexandre Dufresne-Nappert   20948586
+
 def mypolyval(p,x):
     
     if (not isinstance(x, (float, int))):
@@ -11,7 +13,7 @@ def mypolyval(p,x):
         return None
     
     if (not all([isinstance(i, (float, int)) for i in p])):
-        print("Not every time in the list is a float")
+        print("Not every item in the list is a float")
         return None
     
     polysum = 0

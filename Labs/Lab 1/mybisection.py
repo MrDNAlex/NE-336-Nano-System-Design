@@ -9,6 +9,8 @@ from scipy.optimize import bisect
 #import sign from numpy, we dont need any other function from it!
 from numpy import sign
 
+# Alexandre Dufresne-Nappert   20948586
+
 #now for bisection
 def bisection(polyf, xl, xu):
 	'''
