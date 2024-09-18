@@ -8,8 +8,8 @@ def mypolyval(p,x):
         print("x is not a floating point number")
         return None
     
-    if (not isinstance(p, list)):
-        print("p is not a list")
+    if (not isinstance(p, list) or len(p) == 0):
+        print("p is not a list, or is empty")
         return None
     
     if (not all([isinstance(i, (float, int)) for i in p])):
@@ -31,7 +31,7 @@ if __name__=="__main__":
     # Evaluating
     polyTest1 = [4, "Hello", 2, 13, 20]
     polyTest2 = [4, 0, 2, 13, 20]
-    polyTest3 = [4, 0, 2, 13, 20]
+    polyTest3 = []
     
     xTest1 = 4
     xTest2 = "hello"
