@@ -31,7 +31,7 @@ if __name__=="__main__":
     # Evaluating
     polyTest1 = [4, "Hello", 2, 13, 20]
     polyTest2 = [4, 0, 2, 13, 20]
-    polyTest3 = []
+    polyTest3 = [4, 0, 2, 13, 20]
     
     xTest1 = 4
     xTest2 = "hello"
