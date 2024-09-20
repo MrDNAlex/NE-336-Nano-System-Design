@@ -29,6 +29,7 @@ def bisection(polyf, xl, xu):
 
 	if (not isinstance(xu, (float, int))):
 		print("xu is not a Number, input a number please")
+		return None
  
 	if (mypolyval(polyf,xl) == None or mypolyval(polyf, xu) == None):
 		print("Not every value in the polynomial is a Number")
