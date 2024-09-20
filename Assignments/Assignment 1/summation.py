@@ -18,9 +18,10 @@ def summationV1 (x):
         sum += value
         
         if abs(value) < 10**(-5):
-            return sum
+            break
         
         n += 1
+    return sum
         
 # Summation V2 (With Custom tolerance) Function Definition
 def summationV2 (x, tolerance = 10**(-5)):
@@ -46,9 +47,10 @@ def summationV2 (x, tolerance = 10**(-5)):
         sum += value
         
         if abs(value) < tolerance:
-            return sum
+            break
         
         n = n + 1
+    return sum
 
 # True function representing the Value
 def trueEquation (x):
