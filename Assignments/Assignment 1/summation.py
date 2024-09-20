@@ -15,11 +15,11 @@ def summationV1 (x):
     while n < maxLoops:
         exponent = 2 * n + 1
         value = x**(exponent)
+        sum += value
         
         if abs(value) < 10**(-5):
             return sum
         
-        sum += value
         n += 1
         
 # Summation V2 (With Custom tolerance) Function Definition
@@ -43,11 +43,11 @@ def summationV2 (x, tolerance = 10**(-5)):
     while n < maxLoops:
         exponent = 2 * n + 1
         value = x**(exponent)
-    
+        sum += value
+        
         if abs(value) < tolerance:
             return sum
         
-        sum += value
         n = n + 1
 
 # True function representing the Value
