@@ -11,7 +11,8 @@ def summationV1 (x):
         
     sum = 0
     n = 0
-    while True:
+    maxLoops = 100
+    while n < maxLoops:
         exponent = 2 * n + 1
         value = x**(exponent)
         
@@ -19,7 +20,7 @@ def summationV1 (x):
             return sum
         
         sum += value
-        n = n + 1
+        n += 1
         
 # Summation V2 (With Custom tolerance) Function Definition
 def summationV2 (x, tolerance = 10**(-5)):
@@ -38,7 +39,8 @@ def summationV2 (x, tolerance = 10**(-5)):
         
     sum = 0
     n = 0
-    while True:
+    maxLoops = 100
+    while n < maxLoops:
         exponent = 2 * n + 1
         value = x**(exponent)
     
