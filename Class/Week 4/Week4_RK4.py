@@ -1,10 +1,33 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
+#from ...Scripts.RK4 import RK4
 #example 1 
 #dxdt=lambda t: -2*t**3+12*t**2-20*t+8.5
 #xreal=lambda t:-0.5*t**4+4*t**3-10*t**2+8.5*t+1
 
+def RK4 (dxdt, t0, tend, x0) :
+
+    x0 = 2
+    dt = 1
+
+    n =  int((tend - t0)/dt+1)
+
+    t = np.linspace(t0, tend, n)
+    x = np.zeros(n)
+    x[0] = x0
+
+    for i in range(1, n):
+        k1 = dxdt(t[i-1], x[i-1])
+        k2 = dxdt(t[i-1]+0.5*dt, x[i-1]+0.5*k1*dt)
+        k3 = dxdt(t[i-1]+0.5*dt, x[i-1]+0.5*k2*dt)
+        k4 = dxdt(t[i-1]+dt, x[i-1]+k3*dt)
+        
+        phi = (1/6)*(k1 + 2*k2 + 2*k3 + k4)
+        
+        x[i] = x[i - 1] + phi
+        
+    return x
 
 #example 3 
 dxdt=lambda t,x : 4*np.exp(0.8*t)-0.5*x
@@ -43,12 +66,15 @@ x_vals_arr=np.array(x_vals)
 
 print(local_error)
 
+myX = RK4(dxdt, t0, tend, x0)
+
 #lets now solve the same problem using solve_ivp from scipy
 
 plt.figure()
 
 plt.plot(t_val,x_vals_arr,'k-s',label='RK4 with dt='+str(delt))
 plt.plot(t_val,x_true,'r--*',label='real')
+plt.plot(t_val, myX, 'b--*', label="My Method")
 #plt.plot(,'yo',mfc='w')#add solve_ivp soln here
 plt.legend()
 plt.xlabel('t')
