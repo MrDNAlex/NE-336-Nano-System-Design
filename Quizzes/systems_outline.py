@@ -68,7 +68,6 @@ if __name__=="__main__":
     
     #3.2.5
     tol = 10**(-5)
-    
     x1 = 1
     x2 = 1
     x3 = 1
@@ -90,17 +89,9 @@ if __name__=="__main__":
         if (e1 < tol and e2 < tol and e1 < tol):
             print(e1, e2, e3)
             print("Converged")
-            break;
+            break
         
         
     print(x1, x2, x3)
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     #answer quiz here
