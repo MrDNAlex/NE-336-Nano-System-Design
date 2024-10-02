@@ -47,8 +47,8 @@ def mybc(Ta,Tb):
     #        Tb = [T(L)  u(L)]'
 
     #BCs have to defined as residuals
-    BC1=
-    BC2=
+    BC1= Ta[0] - T_x0
+    BC2= Tb[0] - T_end
 	
     resid = [BC1,BC2]
     return resid
@@ -74,3 +74,4 @@ plt.plot(sol.x,sol.y[0],'r-.',label='values from solve_bvp')
 plt.xlabel('x',fontsize=16)
 plt.ylabel('T(x)',fontsize=16)
 plt.legend()
+plt.show()
