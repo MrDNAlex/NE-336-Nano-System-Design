@@ -28,7 +28,6 @@ print(A)
 
 b = np.array([40.8, 0.8, 0.8, 200.8])
 
-
 #2+hdx**2 on diag
 #-1 on off diag
 
@@ -40,6 +39,7 @@ b = np.array([40.8, 0.8, 0.8, 200.8])
 #bend has +Tend
 
 
-
+sol = np.linalg.solve(A, b)
+print(sol)
 #now solve for T
 
