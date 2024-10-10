@@ -1,3 +1,6 @@
+#
+# Gauss Siedel Method
+#
 
 # Initialize System
 b = [247, 248, 239]
@@ -18,4 +21,6 @@ for i in range(10):
     x2 = (b[1] - eq2[0]*x1 - eq2[2]*x3)/eq2[1]
     x3 = (b[2] - eq3[0]*x1 - eq3[1]*x2)/eq3[2]
 
-print(x1, x2, x3)
+print("\n")
+print(f"x1 : {x1}, x2 : {x2}, x3 : {x3}")
+print("\n")
