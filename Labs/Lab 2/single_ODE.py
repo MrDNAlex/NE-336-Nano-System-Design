@@ -129,5 +129,6 @@ for i in range(len(Betas)):
     #Plot the individual Solution
     plt.plot(t_span, xVals, Colors[i], label=f"Solution Beta = {Betas[i]}")
 
+# Show the Plot
 plt.legend()
 plt.show()

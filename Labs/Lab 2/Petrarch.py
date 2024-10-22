@@ -62,4 +62,3 @@ print("Laura never did come to Love Petrarch over the 21 years, this is because 
 # Show All 3 Plots
 plt.suptitle("Solution to the System of ODE's of Petrarch's love of Laura")
 plt.show()
-

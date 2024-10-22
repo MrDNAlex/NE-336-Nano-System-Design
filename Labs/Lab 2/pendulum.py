@@ -95,6 +95,7 @@ yValsBVPNoDamp = solBVPNoDamp.y[0]
 # Plot the BVP Method (No Damp)
 plt.plot(solBVPNoDamp.x, yValsBVPNoDamp, "g-", label=f"BVP Method (No Damp)")
 
+# Show the Plot
 plt.legend()
 plt.xlabel('Time')
 plt.ylabel('Position of the Pendulum')
