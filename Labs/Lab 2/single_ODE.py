@@ -3,6 +3,11 @@ import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
+#
+# Alexandre Dufresne-Nappert
+# 20948586
+#
+
 # ODE Function
 def ode_fun_1 (t, x):
     beta = 2
@@ -12,7 +17,6 @@ def ode_fun_1 (t, x):
 InitialCondition = 5
 tInit = 10
 tFinal = 20
-
 
 #Get the Solution of the ODE
 sol1 = solve_ivp(ode_fun_1, [tInit, tFinal], [InitialCondition], method="RK45")

@@ -3,6 +3,11 @@ import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
+#
+# Alexandre Dufresne-Nappert
+# 20948586
+#
+
 # Define values for Problem
 tFinal = 21
 tInit = 0

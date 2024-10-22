@@ -4,6 +4,11 @@ from scipy.integrate import solve_bvp, solve_ivp
 from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
 
+#
+# Alexandre Dufresne-Nappert
+# 20948586
+#
+
 # Define the Function
 def dfdt (t, f):
     
