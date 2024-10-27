@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 
 # Define the Function
 def dfdt (t, f):
-    
     [y, u] = f
     
     return [u,
@@ -64,7 +63,6 @@ plt.plot(tVals, YIVP.y[0], "r-", label=f"IVP Method")
 
 # Define Boundary Condition
 def BCs (ya, yb):
-    
     yInit = np.pi / 6
     yFinal = np.pi / 6
     
@@ -85,7 +83,6 @@ plt.plot(solBVP.x, yValsBVP, "b-", label=f"BVP Method")
 
 # Define the No Damping function
 def dfdt_nodamp (t, f):
-    
     [y, u] = f
     
     return [u,

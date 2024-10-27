@@ -34,12 +34,7 @@ while np.max(eps[1:,1:m+1])>0.001:
 			eps[row,col]=np.abs((T[row,col]-old)/T[row,col])
 			 
 	k+=1
-	
-
 
 print(f"After {k} iterations")
 print("The temperature distribution within the plate is:")
 print(T)
-
-
-
