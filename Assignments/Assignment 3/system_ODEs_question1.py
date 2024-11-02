@@ -7,6 +7,11 @@ import matplotlib.pyplot as plt
 # Time Import
 import time
 
+#
+# Alexandre Dufresne-Nappert
+# 20948586
+#
+
 # Define the System of Equations
 def GEARsystem (t, y):
     [x1, x2, x3] = y
