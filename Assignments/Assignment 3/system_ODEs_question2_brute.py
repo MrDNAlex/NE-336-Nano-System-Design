@@ -4,14 +4,10 @@ from scipy.integrate import solve_bvp, solve_ivp
 from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
 
-from scipy.optimize import newton
-
 #
 # Alexandre Dufresne-Nappert
 # 20948586
 #
-
-# Notes : Proper Uguess is -0.00255 (If I don't have a uGuess anywhere near that I can't get a valid solution)
 
 # Define Variables and Constants
 k = 10 #cm^3 / (mol * s)
@@ -69,33 +65,54 @@ def Solver (uGuess):
     # Solve for the Guess Using uGuess
     yGuess = solve_ivp(dfdx, (xInit, xEnd), [CaInit, uGuess[0]])
     
-    # Return the Last Value that we Are trying to solve for
+    # Return last value
     return yGuess.y[1, -1]
 
 
-# Make an Initial Guess (Magic Number)
-uGuessInit = [-0.001]
+def IVPMethod (uGuess):
+    # Make an Initial Guess
+    uGuessInit = [uGuess]
+    
+    # Solve for the Correct U
+    correctU = fsolve(Solver, uGuessInit)
 
-# Solve for the Correct U
-correctU = fsolve(Solver, uGuessInit)
+    # Define the Initial Conditions
+    InitConditions = [Ca0, correctU[0]]
 
-# Define the Initial Conditions
-InitConditions = [Ca0, correctU[0]]
+    # Solve using IVP
+    solIVP = solve_ivp(dfdx, (xInit, xEnd), InitConditions)
+    
+    # Interpolate the Values so that we can directly compare
+    CaValsIVP = np.interp(xVals, solIVP.t, solIVP.y[0])
+    
+    return [CaValsIVP, correctU]
+    
+# Make a List of a lot of Guesses
+guesses = np.linspace(-1, 1, 1000)
+validUGuess = []
 
-# Solve using IVP
-solIVP = solve_ivp(dfdx, (0, 1), [Ca0, correctU[0]], t_eval=xVals)
+# Brute force Solve for Valid U guesses
+for i in guesses:
+    
+    # Run the Solve IVP Method
+    [CaValsIVP, correctU] = IVPMethod(i)
+    
+    # Check if the Difference between curves are negligeable, if so print that it is a Valid uGuess, and display the CorrectU solved
+    diff = abs(sum(CaValsBVP - CaValsIVP))
+    if (diff < 0.1):
+        validUGuess.append(i)
+        print(f"\nValid UGuess : {i}  --> Correct U = {correctU} (diff = {diff})\n")
 
-# Extract the Y Data
-CaValsIVP = solIVP.y[0]
+# Print the Valid range of U Guesses
+print(f"Valid Range of U guesses are {min(validUGuess)} <-> {max(validUGuess)}")
 
-#
-# Plot the Results
-#
+
 plt.figure()
+for i in validUGuess:
+    [CaValsIVP, correctU] = IVPMethod(i)
+    plt.plot(xVals, CaValsIVP, "--", label=f"IVP (u = {i})")
+
 plt.plot(solBVP.x, CaValsBVP, "b-", label="BVP")
-plt.plot(solIVP.t, CaValsIVP, "r--" , label="IVP")
-plt.xlabel("Distance into the Pore (cm)")
-plt.ylabel("Concentration of Species A (mol/cm^3)")
-plt.title("Solution to the Concentration of Species A diffused in a Cylindrical Pore")
+
 plt.legend()
 plt.show()
