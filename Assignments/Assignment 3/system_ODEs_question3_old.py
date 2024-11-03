@@ -1,4 +1,4 @@
-#Imports
+# Imports
 import numpy as np
 from scipy.integrate import solve_bvp, solve_ivp
 from scipy.optimize import fsolve
@@ -95,6 +95,65 @@ plt.plot(solIVP.t, CaValsIVP, "r--" , label="IVP")
 plt.xlabel("Distance into the Pore (cm)")
 plt.ylabel("Concentration of Species A (mol/cm^3)")
 plt.title("Solution to the Concentration of Species A diffused in a Cylindrical Pore")
+
+# Define Variables and Constants
+k = 10 #cm^3 / (mol * s)
+Da = 1 * 10**(-3) #cm^2/s
+Ca0 = 1 * 10**(-3) # mol/cm^3
+
+# Define the Span of X
+xInit = 0
+xEnd = 1.0 # cm
+
+# Define the Number of Points and the Solution Vector
+n = 10
+C = np.ones(n) * Ca0
+x = np.linspace(0, 1, n)
+
+# Apply Boundary Condition
+#C[0] = Ca0
+
+# Define Delta X
+dx = (xEnd - xInit)/(n-1)
+
+# Make the A Matrices
+# Middle Row
+Amid = np.diag(-2*np.ones(n-1))
+
+# Upper row
+Aup = np.diag(np.ones(n-2), 1)
+
+# Lower Row
+low = np.ones(n-2)
+low[-1] = 2
+Alow = np.diag(low, -1)
+
+# Combine All Rows
+A = Amid + Alow + Aup
+
+print(A)
+
+for i in range(10):
+
+    # Temporarily Display the Results
+    #print(A)
+
+    # Create the b Vector
+    b = (np.ones(n-1)) * ((k * dx**2)/Da)*(C[1:]**2)
+
+    b[0] -= Ca0
+
+    Cnew = np.linalg.solve(A, b)
+    print(Cnew)
+    
+    C[1:] = np.copy(Cnew)
+    
+    
+    plt.plot(x, C, label=f"iter = {i}")
+    
+
 plt.legend()
-plt.savefig("Q2_Sol.png")
 plt.show()
+
+print("\n")
+print(C)

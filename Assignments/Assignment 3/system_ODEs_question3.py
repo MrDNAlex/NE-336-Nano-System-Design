@@ -1,4 +1,4 @@
-#Imports
+# Imports
 import numpy as np
 from scipy.integrate import solve_bvp, solve_ivp
 from scipy.optimize import fsolve
@@ -9,7 +9,56 @@ import matplotlib.pyplot as plt
 # 20948586
 #
 
-# The Only uGuess that works is -0.001, which then converges to -0.00255, anything else does not converge properly
+#
+# Finite Difference Method
+#
+
+# Define Variables and Constants
+k = 10 #cm^3 / (mol * s)
+Da = 1 * 10**(-3) #cm^2/s
+Ca0 = 1 * 10**(-3) # mol/cm^3
+
+# Define the Span of X
+xInit = 0
+xEnd = 1.0 # cm
+
+# Define the Number of Points and the Solution Vector
+n = 100
+x = np.linspace(0, 1, n)
+
+# Define dx
+dx = (xEnd - xInit)/(n-1)
+
+# Create an Initial Guess Vector
+Cguess = np.ones(n) * Ca0
+
+def Matrix (CAs):
+    
+    # Initialize the System of Equations
+    system = np.zeros(n)
+    
+    # Apply first Boundary Conditions
+    system[0] = CAs[0] - Ca0
+    
+    # Iterate over the Internal Nodes
+    for i in range(1, n-1):
+        system[i] = CAs[i+1] - 2*CAs[i] + CAs[i-1] - ((k*dx**2)/Da)*(CAs[i]**2)
+    
+    # Apply Second Boundary Condition
+    system[n-1] = 2*CAs[i-1] - 2*CAs[i] - ((k*dx**2)/Da)*(CAs[i]**2)
+    
+    # Return the System of Equations
+    return system
+    
+# Use FSolve to solve the System
+sol = fsolve(Matrix, Cguess)
+
+
+#
+#
+# Copy Paste of the Question 2 Solution
+#
+#
 
 # Define Variables and Constants
 k = 10 #cm^3 / (mol * s)
@@ -89,12 +138,13 @@ CaValsIVP = solIVP.y[0]
 #
 # Plot the Results
 #
-plt.figure()
+plt.figure(figsize=(18, 12))
 plt.plot(solBVP.x, CaValsBVP, "b-", label="BVP")
 plt.plot(solIVP.t, CaValsIVP, "r--" , label="IVP")
 plt.xlabel("Distance into the Pore (cm)")
 plt.ylabel("Concentration of Species A (mol/cm^3)")
 plt.title("Solution to the Concentration of Species A diffused in a Cylindrical Pore")
+plt.plot(x, sol, "o", label="Finite Difference")
 plt.legend()
-plt.savefig("Q2_Sol.png")
+plt.savefig("Q3_FiniteDiff_Graph")
 plt.show()
