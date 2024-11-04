@@ -72,7 +72,8 @@ def Solver (uGuess):
 
 
 # Make an Initial Guess (Magic Number)
-uGuessInit = [-0.001]
+#uGuessInit = [-0.001]
+uGuessInit = [solBVP.y[1, 0]]
 
 # Solve for the Correct U
 correctU = fsolve(Solver, uGuessInit)

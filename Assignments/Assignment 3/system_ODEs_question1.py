@@ -16,7 +16,7 @@ import time
 def GEARsystem (t, y):
     [x1, x2, x3] = y
     
-    dx1dt = -0.013*x1 - 1000*x1*x2
+    dx1dt = -0.013*x1 - 1000*x1*x3
     dx2dt = -2500*x2*x3
     dx3dt = -0.013*x1 - 1000*x1*x3 - 2500*x2*x3
     
