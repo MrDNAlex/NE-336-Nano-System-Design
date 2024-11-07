@@ -34,6 +34,7 @@ lam = 1.1
 
 # Iterate over Solving
 while k < maxIter and np.max(eps[1:, :-1]) > tol:
+    # Start At Bottom Right Corner, Move Up
     for row in range(n, 0, -1):
         for col in range(0, m):
             
@@ -42,13 +43,13 @@ while k < maxIter and np.max(eps[1:, :-1]) > tol:
 
             # Cover the Appropriate Cases
             if row == n and col == 0:  # Bottom Left Corner
-                T[row, col] = 0.25 * (2 * T[row - 1, col]+ 2 * T[row, col + 1])
+                T[row, col] = 0.25*(2*T[row - 1, col] + 2*T[row, col + 1])
             elif row == n: # Bottom Side
-                T[row, col] = 0.25*(2*T[row - 1, col] + T[row, col+1] + T[row, col-1])
+                T[row, col] = 0.25*(2*T[row - 1, col] + T[row, col + 1] + T[row, col - 1])
             elif col == 0: # Left Side
-                T[row, col] = 0.25*(T[row + 1, col] + T[row - 1, col] + 2*T[row, col+1])
+                T[row, col] = 0.25*(T[row + 1, col] + T[row - 1, col] + 2*T[row, col + 1])
             else: # Generic Node
-                T[row, col] = 0.25 * (T[row - 1, col] + T[row + 1, col]+ T[row, col - 1]+ T[row, col + 1])
+                T[row, col] = 0.25*(T[row - 1, col] + T[row + 1, col] + T[row, col - 1] + T[row, col + 1])
                 
             # Apply some Relaxation
             T[row, col] = lam * T[row, col] + (1 - lam) * oldVal
