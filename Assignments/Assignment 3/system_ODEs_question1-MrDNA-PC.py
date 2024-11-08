@@ -92,7 +92,7 @@ plt.bar(average_times.keys(), average_times.values())
 plt.xlabel("Solve Method")
 plt.ylabel("Time Elapsed to Solve")
 plt.title("Comparison of Solver Methods by Average Time Taken (Desktop)")
-plt.savefig("SolveTimeLaptop.png")
+plt.savefig("SolveTimeDesktop.png")
 plt.show()
 
 # The reason for the Major Fluctuations in time between Explicit and Implicit method is due to the problem being Stiff (Other comments in my submitted Assignment 3 PDF file)
