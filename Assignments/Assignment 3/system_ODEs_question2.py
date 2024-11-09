@@ -70,7 +70,6 @@ def Solver (uGuess):
     # Return the Last Value that we Are trying to solve for
     return yGuess.y[1, -1]
 
-
 # Make an Initial Guess (Magic Number)
 #uGuessInit = [-0.001]
 uGuessInit = [solBVP.y[1, 0]]

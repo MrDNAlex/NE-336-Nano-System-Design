@@ -117,14 +117,14 @@ while k < maxIter and np.max(eps[:-1, 1:]) > tol:
 
             # Store/Save the Previous Value
             oldVal = T[row, col]
-
+            
             # Cover the Appriate Cases
             if row == 0 and col == m:  # Top Right Corner
-                T[row, col] = 0.25 * (2 * T[row - 1, col]+ 2 * T[row, col - 1]+ dx**2 * sigma * (Ta - T[row, col] ** 4))
+                T[row, col] = 0.25 * (2 * T[row + 1, col]+ 2 * T[row, col - 1]+ dx**2 * sigma * (Ta - T[row, col] ** 4))
             elif row == 0:  # Top Side
-                T[row, col] = 0.25 * (T[row - 1, col]+ T[row + 1, col]+ 2 * T[row, col - 1]+ dx**2 * sigma * (Ta - T[row, col] ** 4))
+                T[row, col] = 0.25 * (2 * T[row + 1, col]+ T[row, col + 1]+T[row, col - 1]+ dx**2 * sigma * (Ta - T[row, col] ** 4))
             elif col == m:  # Right Side
-                T[row, col] = 0.25 * (2 * T[row - 1, col]+ T[row, col - 1]+ T[row, col - 1]+ dx**2 * sigma * (Ta - T[row, col] ** 4))
+                T[row, col] = 0.25 * (2 * T[row, col - 1] + T[row + 1, col] + T[row - 1, col] + dx**2 * sigma * (Ta - T[row, col] ** 4))
             else:  # Any other case
                 T[row, col] = 0.25 * (T[row - 1, col] + T[row + 1, col]+ T[row, col - 1]+ T[row, col - 1]+ dx**2 * sigma * (Ta - T[row, col] ** 4))
 
