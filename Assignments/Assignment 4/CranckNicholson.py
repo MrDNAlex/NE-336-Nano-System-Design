@@ -40,6 +40,8 @@ U = np.zeros((tNodes, rNodes))
 U[0, 1:-1] = UInit
 U[:, -1] = URight
 
+
+rVals[0] = 0.1
 #
 # Build the A Matrix
 #
@@ -58,7 +60,7 @@ A = np.diag(np.ones(n) * (1 + 2*lam)) + np.diag(D, 1) + np.diag(E, -1)
 LU, PIV = lu_factor(A)
 
 # Start the Plot at 
-plt.figure()
+plt.figure(figsize=(16, 10))
 plt.plot(rVals, U[0, :], "--", label=f"Time = {tVals[0]}")
 
 for l in range(tNodes - 1):
@@ -66,25 +68,44 @@ for l in range(tNodes - 1):
     # Create the b Vector
     b = np.zeros(n)
     
-    for i in range(rNodes - 1):
+    # Set r0 to 0.1 to avoid Division by 0
+    r0 = 0.1
+    
+    # Apply Both Boundary Conditions
+    b[0] = 2*lam*(1 + dr/(2*r0)) * U[l, 1] + (1 - 2*lam - lam*(dr/r0)) * U[l, 0]
+    b[-1] = (1 - 2*lam - lam*dr/rVals[-2]) * U[l, -2] + lam*(1 + dr/(2*rVals[-2])) * U[l, -3] + 2*lam*(1 + dr/(2*rVals[-2])) * URight
+    
+    for i in range(1, rNodes - 2):
         # Grab the R Value
         ri = rVals[i]
         
-        # Avoid Division by zero, set R to something small 
-        if ri == 0:
-            ri = 0.1
-        
-        # Apply Insulated Boundary
-        if i == 0:
-            b[i] = 2*lam*(1 + dr/(2*ri)) * U[l, i + 1] + (1 - 2*lam - lam*(dr/ri)) * U[l, i]
-            
-        # Apply Right Boundary
-        elif i == (rNodes - 2):
-            b[i] = (1 - 2*lam - lam*dr/ri) * U[l, i] + lam*(1 + dr/(2*ri)) * U[l, i - 1] + 2*lam*(1 + dr/(2*ri))
-        
-        # Apply Generic Node
-        else:
-            b[i] = lam*(1 + dr/(2*ri)) * U[l, i + 1] + (1 - 2*lam - lam*dr/ri) * U[l, i] + lam*(1 + dr/(2*ri)) * U[l, i - 1]
+        # Apply Generic Node Equation
+        b[i] = lam*(1 + dr/(2*ri)) * U[l, i + 1] + (1 - 2*lam - lam*dr/ri) * U[l, i] + lam*(1 + dr/(2*ri)) * U[l, i - 1]
+    
+    
+    
+    
+    #for i in range(rNodes - 1):
+    #    print(i)
+    #    
+    #    # Grab the R Value
+    #    ri = rVals[i]
+    #    
+    #    # Avoid Division by zero, set R to something small 
+    #    if ri == 0:
+    #        ri = 0.1
+    #    
+    #    # Apply Insulated Boundary
+    #    if i == 0:
+    #        b[i] = 2*lam*(1 + dr/(2*ri)) * U[l, i + 1] + (1 - 2*lam - lam*(dr/ri)) * U[l, i]
+    #        
+    #    # Apply Right Boundary
+    #    elif i == (rNodes - 2):
+    #        b[i] = (1 - 2*lam - lam*dr/ri) * U[l, i] + lam*(1 + dr/(2*ri)) * U[l, i - 1] + 2*lam*(1 + dr/(2*ri)) * URight
+    #    
+    #    # Apply Generic Node
+    #    else:
+    #        b[i] = lam*(1 + dr/(2*ri)) * U[l, i + 1] + (1 - 2*lam - lam*dr/ri) * U[l, i] + lam*(1 + dr/(2*ri)) * U[l, i - 1]
     
     # Paste the Solution into the U Matrix
     U[l + 1, :-1] = lu_solve((LU, PIV), b)
@@ -106,4 +127,5 @@ plt.legend()
 plt.xlabel("Radius of Rod (m)")
 plt.ylabel("Heat of the Rod")
 plt.title("Distribution of Heat in a Circular Rod")
+plt.savefig("CrankNicholson.png")
 plt.show()
