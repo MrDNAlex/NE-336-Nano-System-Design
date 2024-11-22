@@ -9,12 +9,12 @@ import matplotlib.pyplot as plt
 # 20948586
 #
 
-# Number of Internal Nodes (4 + 1 (Derivative BC))
+# Number of Internal Nodes (4 (Derivative BC))
 n = 5
 
 # Define the Right Boundary
 URight = 1
-UInit = 0
+UInit = np.zeros(n)
 
 # Define dr the Start, End and Number of Space Nodes, and create the array of Values
 dr = 0.2
@@ -28,93 +28,57 @@ lam = 1/(2*dr**2)
 
 #Using t instead of z
 # Define dt the Start, End and Number of Time Nodes, and create the array of Values
-dt = 0.1 
+dt = 0.01 
 tInit = 0
 tEnd = 1.0
 tNodes = int((tEnd - tInit)/dt + 1)
 tVals = np.linspace(tInit, tEnd, tNodes)
 
-## Define the dU/dt Function
+# Define the dUdt System of Equations
 def dUdt (t, U):
     
-    FullU = np.hstack([U, URight])
+    # Stack the Right Boundary Condition
+    UAll = np.hstack([U, URight])
     
-    dU = np.zeros(U.size)
+    # Create the dU Vector
+    dU = np.zeros(n)
     
-    print("Hello", len(dU))
+    # Apply First Equation (Insulated Boundary)
+    dU[0] = 2*UAll[1] - 2*UAll[0]
     
-    dU[0] = 2*lam*FullU[1] - 2*lam*FullU[0]
-    
-    for i in range(1, n ):
-        
-        print(i)
-        
+    # Apply all Generic Nodes
+    for i in range(1, n - 1):
         ri = rVals[i]
         
-        dU[i] = lam*(1 + dr/(2 * ri)) * FullU[i + 1] - 2*lam*FullU[i] + lam*(1 - dr/(2 * ri)) * FullU[i - 1]
-            
-    dU[-1] = -2*lam*FullU[-2] + lam*(1 - dr/(2 * rVals[-2]))        
+        dU[i] = (1 + dr/(2 * ri)) * UAll[i + 1] - 2*UAll[i] + (1 - dr/(2 * ri)) * UAll[i - 1]
     
-    return dU
-        
+    # Apply Last Node
+    dU[-1] = -2*UAll[-2] + (1-dr/(2*rVals[-2])) * UAll[-3] + (1 + dr/(2*rVals[-2]))
+    
+    # Return result Multiplied by Lambda
+    return lam*dU
+    
 
+# Solve the System of Equations
+solution = solve_ivp(dUdt, (tInit, tEnd),UInit, t_eval=tVals)
 
-#solution = solve_ivp(dUdt, (0, 1), np.zeros(n+1), t_eval=tVals)
-#
-#
-#for i in range(len(solution.y)):
-#    print(solution.y[i])
-#
-#
-#
-#
-#print(len(solution.y[0]))
-#
-#print(solution)
-#
-#tVals = solution.t
-#sol = np.vstack([solution.y, URight*np.ones(n)])
-#
-#print(sol)
-#
-#plt.figure()
-#plt.plot(tVals, )
+# Add the Right most Node to the System, and combine into one Matrix
+sol = np.vstack([solution.y, np.ones(tNodes) * URight])
 
-# Define the dU/dt Function
-#def dUdt(t, U):
-#    FullU = np.hstack([U, URight])  # Add boundary condition to the right
-#    
-#    dU = np.zeros(U.size)  # Initialize derivative array
-#    
-#    # Boundary conditions
-#    dU[0] = 2 * lam * FullU[1] - 2 * lam * FullU[0]  # Left boundary
-#    dU[-1] = -2 * lam * FullU[-2] + lam * (1 - dr / (2 * rVals[-2]))  # Right boundary
-#    
-#    # Interior nodes
-#    for i in range(1, n - 1):
-#        ri = rVals[i]
-#        dU[i] = lam * (1 + dr / (2 * ri)) * FullU[i + 1] - 2 * lam * FullU[i] + lam * (1 - dr / (2 * ri)) * FullU[i - 1]
-#    
-#    return dU
-
-# Solve the PDE
-initial_condition = np.zeros(n)  # Initial condition for U
-solution = solve_ivp(dUdt, (tInit, tEnd), initial_condition, t_eval=tVals)
-
-# Extract and plot the solution
+# Create a single figure
 plt.figure()
-for i in range(n):
-    plt.plot(tVals, solution.y[i], label=f'Node {i}')
-plt.xlabel('Time')
-plt.ylabel('U')
+
+# Plot every 10th Instance
+for i in range(0, tNodes-10, 10):
+    plt.plot(rVals, sol[:, i], "--", label = f"Time = {tVals[i]:.1f}")
+
+# Plot the Last instance of the Graph
+plt.plot(rVals, sol[:, -1], "-", label = f"Time = {tVals[-1]}")
+
+# Add legend, labels, and show the plot
 plt.legend()
-plt.title('Evolution of U over Time')
+plt.xlabel("Radius of the Rod (m)")
+plt.ylabel("Heat of the Rod")
+plt.title("Distribution of Heat in a Circular Rod (Method of Lines)")
+plt.savefig("MethodOfLines.png")
 plt.show()
-
-
-
-
-
-
-
-
