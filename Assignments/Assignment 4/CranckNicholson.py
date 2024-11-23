@@ -44,10 +44,9 @@ U[:, -1] = URight
 # Build the A Matrix
 #
 
-rVals[0] - 0.001
-
 # Define D as a Vector for U_i+1 and  Apply the Derivative Boundary Conidition
-D = np.ones(n - 1) * -lam*(1 + dr/(2*rVals[:-2]))
+D = np.ones(n - 1) 
+D[1:] *= -lam*(1 + dr/(2*rVals[1:-2]))
 D[0] = -2*lam
 
 # Define E as Vector for U_i-1
@@ -91,7 +90,7 @@ for l in range(tNodes - 1):
     
 
 # Plot All other Graphs between Second and Second Last 
-for i in range(len(U)-1):
+for i in range(0, tNodes-1, 1):
     plt.plot(rVals, U[i, :], "--", label=f"Time = {tVals[i]:.1f} s")
     
 # Plot the Last Graph with a Unique Identifier

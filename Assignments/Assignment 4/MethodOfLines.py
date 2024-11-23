@@ -66,7 +66,7 @@ solution = solve_ivp(dUdt, (tInit, tEnd),UInit, t_eval=tVals)
 sol = np.vstack([solution.y, np.ones(tNodes) * URight])
 
 # Create a single figure
-plt.figure()
+plt.figure(figsize=(16, 10))
 
 # Plot every 10th Instance
 for i in range(0, tNodes-10, 10):
