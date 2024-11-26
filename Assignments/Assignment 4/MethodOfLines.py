@@ -24,7 +24,7 @@ rNodes = int((rEnd - rInit)/dr + 1)
 rVals = np.linspace(rInit, rEnd, rNodes)
 
 # Define Lambda
-lam = 1/(2*dr**2)
+lam = 1/(dr**2)
 
 #Using t instead of z
 # Define dt the Start, End and Number of Time Nodes, and create the array of Values
