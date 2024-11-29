@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 #
 
 # Define dr the Start, End and Number of Space Nodes, and create the array of Values
-dr = 0.001
+dr = 0.2
 rInit = 0
 rEnd = 1
 rNodes = int((rEnd - rInit)/dr + 1)
@@ -47,17 +47,19 @@ def dUdt (t, U):
     dU[0] = 2*UAll[1] - 2*UAll[0]
     
     # Apply all Generic Nodes
-    for i in range(1, n - 1):
+    for i in range(1, n):
+        # Extract the R Value
         ri = rVals[i]
         
         # Apply Generic Node Equation
         dU[i] = (1 + dr/(2 * ri)) * UAll[i + 1] - 2*UAll[i] + (1 - dr/(2 * ri)) * UAll[i - 1]
     
     # Apply Last Node
-    dU[-1] = -2*UAll[-2] + (1-dr/(2*rVals[-2])) * UAll[-3] + (1 + dr/(2*rVals[-2]))
+    #dU[-1] = -2*UAll[-2] + (1-dr/(2*rVals[-2])) * UAll[-3] + (1 + dr/(2*rVals[-2]))
     
+    #print(dU)
     # Return result Multiplied by Lambda
-    return lam*dU
+    return lam * dU
     
 
 # Solve the System of Equations
