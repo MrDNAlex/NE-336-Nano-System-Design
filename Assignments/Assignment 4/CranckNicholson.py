@@ -26,7 +26,7 @@ UInit = 0
 
 #Using t instead of z
 # Define dt the Start, End and Number of Time Nodes, and create the array of Values
-dt = 0.0001
+dt = 0.001
 tInit = 0
 tEnd = 1.0
 tNodes = int((tEnd - tInit)/dt + 1)
@@ -72,7 +72,7 @@ for l in range(tNodes - 1):
     
     # Apply Both Boundary Conditions
     b[0] = -U[l, 2] + 4*U[l, 1] - 3*U[l, 0]
-    b[-1] = 2*lam*(1+dr/(2*rVals[-2])) * URight + (1 - 2*lam)*U[l, -2] + lam*(1 - dr/(2*rVals[-2]))
+    b[-1] = 2*lam*(1+dr/(2*rVals[-1])) * URight + (1 - 2*lam)*U[l, -1] + lam*(1 - dr/(2*rVals[-1]))*U[l, -2]
     
     # Set all other b Vector Values
     for i in range(1, rNodes - 2):
