@@ -13,6 +13,7 @@ def dxdt(t,x):
 	#so x=[x1,x2]
 	
 	dxdt_array = np.zeros((2,))
+	print(dxdt_array)
 	dxdt_array[0]=-0.5*x[0]
 	dxdt_array[1]=4-0.3*x[1]-0.1*x[0]
 	
