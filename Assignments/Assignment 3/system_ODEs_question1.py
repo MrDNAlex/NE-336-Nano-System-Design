@@ -53,6 +53,8 @@ for i in range(iterationNums):
         # Run the Solver
         sol = solve_ivp(GEARsystem, (0, 50), initialConditions, method=method)
 
+        print(sol.y)
+
         # Record the End Time
         endTime = time.time()
         
