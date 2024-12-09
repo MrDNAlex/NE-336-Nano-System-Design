@@ -1,0 +1,12 @@
+Q1
+If we do not have the function of the derivative. 
+We can use the formal definition of a derivative where f(x+h) - f(x) / h
+and we can make sure that the resulting value is not 0, we can make it something very small to avoid division by 0
+
+
+Q2
+If we have 1000 linear equations we should use an iterative method as it would save a lot of computation and time
+1000 linear equations would result in a 1000 x 1000 matrix to solve and it will take a few minutes to solve using a CPU
+
+
+
