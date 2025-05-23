@@ -3,8 +3,6 @@ from scipy.optimize import fsolve
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-
 T0 = 120
 Q = 1000
 k = 14
@@ -16,8 +14,6 @@ xVals = np.linspace(x0, xEnd, n)
 dx = xVals[1] - xVals[0]
 
 internalNodes = n - 1
-
-
 
 # Make A Matrix
 Amid = np.ones(internalNodes) * -2
